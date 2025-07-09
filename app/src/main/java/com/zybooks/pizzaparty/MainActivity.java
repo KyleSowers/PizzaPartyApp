@@ -9,10 +9,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    public final static int SLICES_PER_PIZZA = 8;
+//    public final static int SLICES_PER_PIZZA = 8;
     private final static String TAG = "MainActivity";
 
     private EditText mNumAttendEditText;
@@ -49,16 +50,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void calculateClick(View view) {
+        String numAttendStr = mNumAttendEditText.getText().toString().trim();
+
+        // check if input is empty
+        if (numAttendStr.isEmpty()) {
+//            Toast.makeText(this, "Please enter number of people", Toast.LENGTH_SHORT).show();
+            mNumAttendEditText.setError("Please enter number of people");
+            mNumAttendEditText.requestFocus();
+            return;
+        }
+
+        // Parse and calculate
+        int numAttend = Integer.parseInt(numAttendStr);
 
         // Get how many are attending the party
-        int numAttend;
-        try {
-            String numAttendStr = mNumAttendEditText.getText().toString();
-            numAttend = Integer.parseInt(numAttendStr);
-        }
-        catch (NumberFormatException ex) {
-            numAttend = 0;
-        }
+//        int numAttend;
+//        try {
+//            String numAttendStr = mNumAttendEditText.getText().toString();
+//            numAttend = Integer.parseInt(numAttendStr);
+//        }
+//        catch (NumberFormatException ex) {
+//            numAttend = 0;
+//        }
 
         // Get hunger level selection
         int checkedId = mHowHungryRadioGroup.getCheckedRadioButtonId();
