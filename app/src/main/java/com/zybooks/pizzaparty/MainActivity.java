@@ -1,6 +1,8 @@
 package com.zybooks.pizzaparty;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -26,6 +28,22 @@ public class MainActivity extends AppCompatActivity {
 
         // Assign the widgets to fields
         mNumAttendEditText = findViewById(R.id.num_attend_edit_text);
+
+        mNumAttendEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() < 1) {
+                    mNumAttendEditText.setError("Please enter at least 1 person");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
         mNumPizzasTextView = findViewById(R.id.num_pizzas_text_view);
         mHowHungryRadioGroup = findViewById(R.id.hungry_radio_group);
     }
