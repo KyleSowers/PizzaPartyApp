@@ -4,8 +4,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
@@ -18,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText mNumAttendEditText;
     private TextView mNumPizzasTextView;
-    private RadioGroup mHowHungryRadioGroup;
+    private Spinner mHungerSpinner;
+//    private RadioGroup mHowHungryRadioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Assign the widgets to fields
         mNumAttendEditText = findViewById(R.id.num_attend_edit_text);
-
         mNumAttendEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -46,12 +49,31 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mNumPizzasTextView = findViewById(R.id.num_pizzas_text_view);
-        mHowHungryRadioGroup = findViewById(R.id.hungry_radio_group);
+
+//        mHowHungryRadioGroup = findViewById(R.id.hungry_radio_group);
+        mHungerSpinner = findViewById(R.id.hunger_spinner);
+// Set up adapter for the spinner
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.hunger_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mHungerSpinner.setAdapter(adapter);
+
+// Clear result when user changes hunger level
+        mHungerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mNumPizzasTextView.setText(""); // clear result
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
     }
 
     public void calculateClick(View view) {
-        String numAttendStr = mNumAttendEditText.getText().toString().trim();
 
+        String numAttendStr = mNumAttendEditText.getText().toString().trim();
         // check if input is empty
         if (numAttendStr.isEmpty()) {
 //            Toast.makeText(this, "Please enter number of people", Toast.LENGTH_SHORT).show();
@@ -74,14 +96,28 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
         // Get hunger level selection
-        int checkedId = mHowHungryRadioGroup.getCheckedRadioButtonId();
+        int position = mHungerSpinner.getSelectedItemPosition();
         PizzaCalculator.HungerLevel hungerLevel = PizzaCalculator.HungerLevel.RAVENOUS;
-        if (checkedId == R.id.light_radio_button) {
+
+        if (position == 0) {
             hungerLevel = PizzaCalculator.HungerLevel.LIGHT;
-        }
-        else if (checkedId == R.id.medium_radio_button) {
+        } else if (position == 1) {
             hungerLevel = PizzaCalculator.HungerLevel.MEDIUM;
         }
+
+
+
+        // Get hunger level selection
+//        int checkedId = mHowHungryRadioGroup.getCheckedRadioButtonId();
+//        PizzaCalculator.HungerLevel hungerLevel = PizzaCalculator.HungerLevel.RAVENOUS;
+//        if (checkedId == R.id.light_radio_button) {
+//            hungerLevel = PizzaCalculator.HungerLevel.LIGHT;
+//        }
+//        else if (checkedId == R.id.medium_radio_button) {
+//            hungerLevel = PizzaCalculator.HungerLevel.MEDIUM;
+//        }
+
+
 
         // Get the number of pizzas needed
         PizzaCalculator calc = new PizzaCalculator(numAttend, hungerLevel);
