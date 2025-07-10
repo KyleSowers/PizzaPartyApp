@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
@@ -18,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
 
 //    public final static int SLICES_PER_PIZZA = 8;
     private final static String TAG = "MainActivity";
+
+    private final String KEY_TOTAL_PIZZAS = "totalPizzas";
+    private int mTotalPizzas;
 
     private EditText mNumAttendEditText;
     private TextView mNumPizzasTextView;
@@ -33,6 +37,17 @@ public class MainActivity extends AppCompatActivity {
 
         // Assign the widgets to fields
         mNumAttendEditText = findViewById(R.id.num_attend_edit_text);
+        mNumPizzasTextView = findViewById(R.id.num_pizzas_text_view);
+        //        mHowHungryRadioGroup = findViewById(R.id.hungry_radio_group);
+        mHungerSpinner = findViewById(R.id.hunger_spinner);
+
+        // Restore state
+        if (savedInstanceState != null) {
+            mTotalPizzas = savedInstanceState.getInt(KEY_TOTAL_PIZZAS);
+            displayTotal();
+        }
+
+// Set up TextWatcher
         mNumAttendEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -48,10 +63,6 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {}
         });
 
-        mNumPizzasTextView = findViewById(R.id.num_pizzas_text_view);
-
-//        mHowHungryRadioGroup = findViewById(R.id.hungry_radio_group);
-        mHungerSpinner = findViewById(R.id.hunger_spinner);
 // Set up adapter for the spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.hunger_array, android.R.layout.simple_spinner_item);
@@ -69,7 +80,20 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
+        // restore state
+        if (savedInstanceState != null) {
+            mTotalPizzas = savedInstanceState.getInt(KEY_TOTAL_PIZZAS);
+            displayTotal();
+        }
+
     }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(KEY_TOTAL_PIZZAS, mTotalPizzas);
+    }
+
 
     public void calculateClick(View view) {
 
@@ -121,10 +145,15 @@ public class MainActivity extends AppCompatActivity {
 
         // Get the number of pizzas needed
         PizzaCalculator calc = new PizzaCalculator(numAttend, hungerLevel);
-        int totalPizzas = calc.getTotalPizzas();
+        mTotalPizzas = calc.getTotalPizzas();
+        displayTotal();
 
         // Place totalPizzas into the string resource and display
-        String totalText = getString(R.string.total_pizzas_num, totalPizzas);
+//        String totalText = getString(R.string.total_pizzas_num, totalPizzas);
+//        mNumPizzasTextView.setText(totalText);
+    }
+    private void  displayTotal() {
+        String totalText = getString(R.string.total_pizzas_num, mTotalPizzas);
         mNumPizzasTextView.setText(totalText);
     }
 }
