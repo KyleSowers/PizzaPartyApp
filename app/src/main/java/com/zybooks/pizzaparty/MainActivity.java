@@ -3,6 +3,7 @@ package com.zybooks.pizzaparty;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -89,6 +90,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.appbar_menu, menu);
+        return true;
+    }
+
+    @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(KEY_TOTAL_PIZZAS, mTotalPizzas);
@@ -156,4 +163,5 @@ public class MainActivity extends AppCompatActivity {
         String totalText = getString(R.string.total_pizzas_num, mTotalPizzas);
         mNumPizzasTextView.setText(totalText);
     }
+
 }

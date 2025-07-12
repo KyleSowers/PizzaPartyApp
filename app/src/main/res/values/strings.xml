@@ -8,6 +8,9 @@
     <string name="total_pizzas">Total pizzas: ?</string>
     <string name="calculate">Calculate</string>
     <string name="total_pizzas_num">Total pizzas: %d</string>
+    <string name="action_add">Plus menu</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_about">About</string>
 
     <string-array name="hunger_array">
         <item>Light</item>
