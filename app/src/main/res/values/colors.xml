@@ -5,4 +5,8 @@
     <color name="my_green">#11BB11</color>
     <color name="gray">#AAA</color>
     <color name="dark_green">#22AA22</color>
+    <color name="purple_500">#63A</color>
+    <color name="purple_700">#53E</color>
+    <color name="teal_200">#0CC</color>
+    <color name="teal_700">#0FF</color>
 </resources>
