@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -93,6 +94,24 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.appbar_menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+         // Determine which menu option was selected
+        if (item.getItemId() == R.id.action_add) {
+            // Add selected
+            return true;
+        } else if (item.getItemId() == R.id.action_logout) {
+            // Logout selected
+            return true;
+        } else if (item.getItemId() == R.id.action_about) {
+            // About selected
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
